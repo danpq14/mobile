@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let mobile=function (name,pin,draft,inbox,sent,status) {
+        this.name=name;
+        this.pin=pin;
+        this.draft=draft;
+        this.inbox=inbox;
+        this.sent=sent;
+        this.status=status;
+        let count=0;
+        this.checkPin=function () {
+            return 'pin của ' + this.name+ '=' +this.pin;
+        }
+        this.checkStatus=function () {
+            return this.status;
+            this.pin--;
+        };
+        this.onOff=function () {
+            if (this.status=='on') {
+                this.status = 'off';
+            }
+            else if (this.status=='off') {
+                this.status='on';
+            }
+            this.pin--;
+        };
+        this.charge=function () {
+            for (i=this.pin;i<100;i++) {
+                this.pin ++
+            }
+        };
+        this.setMessage=function (message) {
+            if (this.status == 'on' && this.pin > 0) {
+            this.draft +=message+ ',';
+            this.pin--;
+        }
+        };
+        this.sentMessage=function (mobile,text) {
+            if (this.status == 'on' && this.pin > 0) {
+                this.sent +=  ' ' + text +'/';
+                mobile.inbox += ' ' + text +'/';
+                this.pin--;
+            }
+        };
+        this.receiveMessage=function (mobile,text) {
+            if (this.status == 'on' && this.pin > 0) {
+                this.inbox += text;
+                this.pin--;
+            }
+        };
+        this.checkSent=function () {
+            if (this.status == 'on' && this.pin > 0) {
+                return this.sent;
+                this.pin--;
+            }
+        };
+        this.checkInbox=function () {
+            if (this.status == 'on' && this.pin > 0) {
+                return this.inbox;
+                this.pin--;
+            }
+        };
+
+    }
+    let samsung = new mobile('samsung',10,'','inbox samsung : ','sent samsung : ','on');
+    let iphone= new mobile('iphone',5,'','inbox iphone : ','sent iphone : ','on');
+    samsung.setMessage('tin nháp');
+    samsung.sentMessage(iphone,'tin gửi từ samsung');
+    let a=samsung.checkSent();
+    let b=iphone.checkInbox();
+    console.log(a);
+    console.log(b);
+    let d=samsung.checkPin();
+    console.log(d);
+    samsung.charge();
+    console.log(samsung.checkPin());
+    iphone.charge();
+    console.log(iphone.checkPin());
+    iphone.sentMessage(samsung,'tin nhắn gửi từ iphone');
+    console.log(iphone.checkSent());
+    console.log(iphone.checkPin());
+    console.log(samsung.checkInbox());
+    iphone.sentMessage(samsung,'tin nhắn thứ 2 gửi từ iphone');
+    console.log(samsung.checkInbox());
+    console.log(samsung.checkPin());
+    console.log(samsung.checkStatus());
+    samsung.onOff();
+    console.log(samsung.checkStatus());
+    samsung.onOff();
+    samsung.sentMessage(iphone,'tin nhắn test');
+    console.log(samsung.checkSent());
+    console.log(samsung.checkStatus())
+    samsung.onOff()
+    console.log(samsung.checkStatus())
+    samsung.sentMessage(iphone,'abc');
+    console.log(samsung.checkSent());
+    samsung.onOff()
+    samsung.sentMessage(iphone,'abcdef')
+    console.log(samsung.checkSent());
+</script>
+</body>
+</html>
